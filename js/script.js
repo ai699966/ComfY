@@ -21,16 +21,15 @@ if (localStorage.getItem("cart") != null) {
 
 
 
-// (async function () {
-//     var productsUrl = await fetch('https://ai699966.github.io/API/products.json', {method: 'GET'})
-//     var allProduct = await productsUrl.json();
-//     console.log(allProduct.product);
-//     prod = allProduct.product;
-//     getAllProducts();
-//     productItems = document.querySelectorAll('.add');
+(async function () {
+    var productsUrl = await fetch('https://ai699966.github.io/API/products.json', {method: 'GET'})
+    var allProduct = await productsUrl.json();
+    console.log(allProduct.product);
+    prod = allProduct.product;
+    productItems = document.querySelectorAll('.add');
 
-//     return prod;
-// })();
+    return prod;
+})();
 
  var displayProduct =  async function () {
     var productsUrl = await fetch('https://ai699966.github.io/API/products.json', {method: 'GET'})    
