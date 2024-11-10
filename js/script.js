@@ -58,7 +58,7 @@ if (localStorage.getItem("cart") != null) {
     var productsUrl = await fetch('https://ai699966.github.io/API/products.json', {method: 'GET'})    
     var allProduct = await productsUrl.json();
     let prop = allProduct.product;
-    var cartona =``;
+    let cartona =``;
    
         for(i=0; prop.length>i; i++){
             let price = prop[i].fields.price / 100;
@@ -166,13 +166,13 @@ function renderCart() {
 
 }
 
-if (window.location.pathname == '/index.html') {
+if (window.location.pathname == '/ComfY/') {
     displayProduct()
     console.log('home');
- } else if (window.location.pathname === '/products.html') {
+ } else if (window.location.pathname === '/ComfY/products.html') {
     getAllProducts();
      console.log('product');
- } else if (window.location.pathname === '/Cart.html') {
+ } else if (window.location.pathname === '/ComfY/Cart.html') {
     renderCart();
      console.log('product');
  }
