@@ -19,29 +19,20 @@ if (localStorage.getItem("cart") != null) {
     var cartProducts = [];
 }
 
-if (window.location.pathname === '/index.html') {
-    displayProduct()
-    console.log('home');
- } else if (window.location.pathname === '/products.html') {
-    getAllProducts();
-     console.log('product');
- } else if (window.location.pathname === '/Cart.html') {
-    renderCart();
-     console.log('product');
- }
 
-(async function () {
-    var productsUrl = await fetch('https://ai699966.github.io/API/products.json', {method: 'GET'})
-    var allProduct = await productsUrl.json();
-    console.log(allProduct.product);
-    prod = allProduct.product;
-    getAllProducts();
-    productItems = document.querySelectorAll('.add');
 
-    return prod;
-})();
+// (async function () {
+//     var productsUrl = await fetch('https://ai699966.github.io/API/products.json', {method: 'GET'})
+//     var allProduct = await productsUrl.json();
+//     console.log(allProduct.product);
+//     prod = allProduct.product;
+//     getAllProducts();
+//     productItems = document.querySelectorAll('.add');
 
- async function displayProduct() {
+//     return prod;
+// })();
+
+ var displayProduct =  async function () {
     var productsUrl = await fetch('https://ai699966.github.io/API/products.json', {method: 'GET'})    
     var allProduct = await productsUrl.json();
     console.log(allProduct);
@@ -49,19 +40,21 @@ if (window.location.pathname === '/index.html') {
     var cartona =``;
     for (let i = 0; i < 3; i++){
         let price = prod[i].fields.price / 100;
-        cartona += `<div class = 'col-md-4 p-3'>
-                        <div class = 'add'>
+        cartona += `<div class = 'col-md-4 p-3 add'>
                         <div>
                             <img class = 'img-fluid imgContain rounded ' src= '${prod[i].fields.image[0].url}'>
                         </div>
                         <h3 class = 'text-center text-muted mt-2'>${prod[i].fields.name}</h3>
                         <h5 class = 'text-center'>${price}$</h5>
+                        <div class="d-flex justify-content-center align-items-center">
+                         <button class="btn btn-primary mt-2 add" onclick="addToCart(${i})">Add To Cart</button>
                         </div>
                     </div>`;  
     }
     document.getElementById('homeProduct').innerHTML = cartona;
     }
- async function getAllProducts() {
+
+ var getAllProducts = async function () {
     var productsUrl = await fetch('https://ai699966.github.io/API/products.json', {method: 'GET'})    
     var allProduct = await productsUrl.json();
     let prop = allProduct.product;
@@ -91,6 +84,9 @@ for (let i = 0; i < companies.length; i++) {
     companies[i].addEventListener('click', function (e) {
         console.log(e.target.innerHTML);
         console.log(prod);
+        if (e.target.innerHTML === "All") {
+            getAllProducts();
+        } else {
         let companyProductus = prod.filter((x) => x.fields.company == e.target.innerHTML.toLowerCase())
         console.log(companyProductus);
         var cartona = ``;
@@ -103,12 +99,14 @@ for (let i = 0; i < companies.length; i++) {
                             </div>
                             <h3 class = 'text-center text-muted'>${companyProductus[i].fields.name}</h3>
                             <h5 class = 'text-center'>${price}$</h5>
-                            
+                            <div class="d-flex justify-content-center align-items-center">
+                         <button class="btn btn-primary mt-2 add" onclick="addToCart(${i})">Add To Cart</button>
+                        </div>
                         </div>`;
             
         }
         document.getElementById('products').innerHTML = cartona;
-        
+    }
     })   
 }
 
@@ -118,14 +116,16 @@ function search(term) {
     for (let i = 0; i < prod.length; i++) {
        if (prod[i].fields.name.toLowerCase().includes(term) == true || prod[i].fields.name.toLowerCase().includes(term) == true || prod[i].fields.company.toLowerCase().includes(term) == true) { 
         let price = prod[i].fields.price / 100;
-        cartona += `<div class = 'col-md-4 p-3'>
+        cartona += `<div class = 'col-md-4 p-3 add'>
                         
                         <div>
                             <img class = 'img-fluid imgContain rounded' src= '${prod[i].fields.image[0].url}'>
                         </div>
                         <h3 class = 'text-center text-muted'>${prod[i].fields.name}</h3>
                         <h5 class = 'text-center'>${price}$</h5>
-                       
+                       <div class="d-flex justify-content-center align-items-center">
+                         <button class="btn btn-primary mt-2 add" onclick="addToCart(${i})">Add To Cart</button>
+                        </div>
                     </div>`;}
 
     }
@@ -165,6 +165,18 @@ function renderCart() {
     document.getElementById('cartDetails').innerHTML = cartona;
 
 }
+
+if (window.location.pathname == '/index.html') {
+    displayProduct()
+    console.log('home');
+ } else if (window.location.pathname === '/products.html') {
+    getAllProducts();
+     console.log('product');
+ } else if (window.location.pathname === '/Cart.html') {
+    renderCart();
+     console.log('product');
+ }
+
 function increaseQuantity(param) {
     cartProducts[param].quantity += 1;
     localStorage.setItem('cart', JSON.stringify(cartProducts));
